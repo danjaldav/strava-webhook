@@ -26,7 +26,7 @@ def index(request):
 
     # Initialise Secret Manager
     client = secretmanager.SecretManagerServiceClient()
-    resource_name = f"projects/{os.getenv('GCP_PROJECT')}/secrets/" \
+    resource_name = f"projects/{os.getenv('Strava')}/secrets/" \
                     f"STRAVA_SUBSCRIPTION_ID/versions/latest"
 
     # Get the Subscription Id
@@ -41,7 +41,7 @@ def index(request):
     if data['object_type'] == 'activity':
         publisher = pubsub.PublisherClient()
         publisher.publish(
-            f"projects/{os.getenv('GCP_PROJECT')}/topics/strava-new-activity",
+            f"projects/{os.getenv('Strava')}/topics/strava-new-activity",
             json.dumps(data).encode('utf-8'))
 
         logger.info('Activity: %s', data['object_id'])
